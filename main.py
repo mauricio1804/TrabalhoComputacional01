@@ -48,7 +48,6 @@ class App:
         ui.build_canvas()
         ui.build_status()
 
-        # Atualização periódica do canvas
         self.root.after(50, self._refresh_canvas)
 
     # ---------- Seleção de ROI ----------
@@ -103,7 +102,6 @@ class App:
             y1 = max(0, min(y1, img_h))
 
             bbox = (min(x0, x1), min(y0, y1), abs(x1 - x0), abs(y1 - y0))
-           # Inicializa tracker (já dentro da checagem de tamanho mínimo)
             if bbox[2] > 10 and bbox[3] > 10:
                 self.roi_coords = bbox
                 self.video_processor.init_tracker(self.frame, bbox)
@@ -111,12 +109,9 @@ class App:
             else:
                 self._update_status("ROI muito pequena. Selecione uma área maior.")
 
-            # --- NOVO: remove o retângulo vermelho da tela ---
             if self.roi_rect_id:
                 self.canvas.delete(self.roi_rect_id)
                 self.roi_rect_id = None
-
-            # Desvincula eventos do mouse
             self.canvas.unbind("<ButtonPress-1>")
             self.canvas.unbind("<B1-Motion>")
             self.canvas.unbind("<ButtonRelease-1>")
@@ -126,7 +121,7 @@ class App:
     def open_image(self):
         path = filedialog.askopenfilename(
             title="Selecionar imagem",
-            filetypes=[("Imagens", "*.png;*.jpg;*.jpeg;*.bmp;*.tiff"), ("Todos os arquivos", "*.*")]
+            filetypes=[("Todos os arquivos", "*.*")]
         )
         if not path:
             return
@@ -141,7 +136,7 @@ class App:
     def open_video(self):
         path = filedialog.askopenfilename(
             title="Selecionar vídeo",
-            filetypes=[("Vídeos", "*.mp4;*.avi;*.mov;*.mkv"), ("Todos os arquivos", "*.*")]
+            filetypes=[("Todos os arquivos", "*.*")]
         )
         if not path:
             return
@@ -159,7 +154,7 @@ class App:
 
     def load_template(self):
         path = filedialog.askopenfilename(title="Selecionar template",
-            filetypes=[("Imagens", "*.png;*.jpg;*.jpeg;*.bmp;*.tiff"), ("Todos", "*.*")]
+            filetypes=[("Todos", "*.*")]
         )
         if path:
             self.video_processor.load_template(path)
@@ -167,7 +162,7 @@ class App:
 
     def load_music(self):
         path = filedialog.askopenfilename(title="Selecionar música",
-            filetypes=[("Áudio MP3", "*.mp3"), ("Áudio WAV", "*.wav"), ("Todos", "*.*")]
+            filetypes=[("Todos", "*.*")]
         )
         if path:
             self.video_processor.set_music(path)

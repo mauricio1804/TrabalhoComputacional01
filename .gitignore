@@ -2,3 +2,5 @@ image/
 __pycache__/
 teste copy.py
 venv/
+videos/
+audios/

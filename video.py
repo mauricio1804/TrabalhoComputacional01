@@ -133,7 +133,6 @@ class VideoProcessor:
         return frame
 
     def load_template(self, path):
-        """Carrega imagem modelo (template) para matching."""
         try:
             self.template = cv2.imread(path)
             if self.template is None:
@@ -182,11 +181,6 @@ class VideoProcessor:
             print("Erro ao carregar música:", e)
 
     def _update_music_state(self):
-        """
-        Atualiza o estado da música.
-        Toca quando há rastreamento OU template detectado.
-        Para quando não há nenhum ativo.
-        """
         active = self.tracking or self.template_detected
         if not self.music_loaded:
             return
