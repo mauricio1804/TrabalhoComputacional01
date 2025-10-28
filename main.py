@@ -131,6 +131,7 @@ class App:
         if not path:
             return
         img = cv2.imread(path)
+        img
         if img is None:
             messagebox.showerror("Erro", "Não foi possível carregar a imagem.")
             return
